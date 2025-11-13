@@ -1,36 +1,23 @@
-//your JS code here. If required.
-const codes = document.querySelectorAll('.code');
+const inputs = document.querySelectorAll('.code');
 
-// Automatically focus on the first input on page load
-codes[0].focus();
+// Focus on first input when page loads
+window.addEventListener('DOMContentLoaded', () => {
+  inputs[0].focus();
+});
 
-codes.forEach((code, idx) => {
-  code.addEventListener('input', (e) => {
+// For each input field
+inputs.forEach((input, index) => {
+  input.addEventListener('input', (e) => {
     const value = e.target.value;
-
-    // Allow only one digit
-    if (value.length > 1) {
-      e.target.value = value.charAt(0);
-    }
-
-    // Move to next input automatically
-    if (value && idx < codes.length - 1) {
-      codes[idx + 1].focus();
+    if (value.length === 1 && index < inputs.length - 1) {
+      inputs[index + 1].focus(); // move to next input
     }
   });
 
-  code.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace') {
-      if (e.target.value === '') {
-        // Move focus back and clear previous
-        if (idx > 0) {
-          codes[idx - 1].focus();
-          codes[idx - 1].value = '';
-        }
-      } else {
-        // Clear current field
-        e.target.value = '';
-      }
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+      inputs[index - 1].focus(); // move to previous input
+      inputs[index - 1].value = ''; // clear previous
     }
   });
 });
